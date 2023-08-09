@@ -26,6 +26,26 @@ const Cart = () => {
     setTotalAmt(price.toFixed(2));
   }, [products]);
   // ============ Total Amount End here ================
+// console.log(products)
+
+  const checkout = async () => {
+    await fetch("http://localhost:4000/checkout", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ items: products }),
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((response) => {
+        if (response.url) {
+          window.location.assign(response.url); // Forwarding user to Stripe
+        }
+      });
+  };
+
   return (
     <div className="w-full bg-gray-100 p-4">
       {products.length > 0 ? (
@@ -122,7 +142,7 @@ const Cart = () => {
                   Total: <span className="text-lg font-bold">${totalAmt}</span>
                 </p>
               </div>
-              <button className="w-full font-titleFont font-medium text-base bg-gradient-to-tr from-yellow-400 to-yellow-200 border hover:from-yellow-300 hover:to-yellow-400 border-yellow-500 hover:border-yellow-700 active:bg-gradient-to-bl active:from-yellow-400 active:to-yellow-500 duration-200 py-1.5 rounded-md mt-3">
+              <button onClick={checkout} className="w-full font-titleFont font-medium text-base bg-gradient-to-tr from-yellow-400 to-yellow-200 border hover:from-yellow-300 hover:to-yellow-400 border-yellow-500 hover:border-yellow-700 active:bg-gradient-to-bl active:from-yellow-400 active:to-yellow-500 duration-200 py-1.5 rounded-md mt-3">
                 Proceed to pay
               </button>
             </div>
