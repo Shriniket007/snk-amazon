@@ -29,7 +29,7 @@ const Cart = () => {
 // console.log(products)
 
   const checkout = async () => {
-    await fetch("http://localhost:4000/checkout", {
+    await fetch("https://snk-stripe-server.cyclic.app/checkout", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
